@@ -63,7 +63,7 @@ public class PaniniController {
 	}
 
 	public boolean registerPlayer(String teamID, String name, String lastName, String id, int shirtNumber,
-			String playerPosition) {
+			int playerPosition) {
 
 		for (int i = 0; i < teams.length; i++) {
 

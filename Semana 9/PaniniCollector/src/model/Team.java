@@ -52,7 +52,7 @@ public class Team {
 		this.players = players;
 	}
 
-	public boolean addPlayer(String name, String lastName, String id, int shirtNumber, String playerPosition) {
+	public boolean addPlayer(String name, String lastName, String id, int shirtNumber, int playerPosition) {
 
 		Player myPlayer = new Player(name, lastName, id, shirtNumber, playerPosition);
 
