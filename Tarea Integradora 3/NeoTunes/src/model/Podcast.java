@@ -21,4 +21,9 @@ public class Podcast extends Audio {
         this.description = description;
         this.category = category;
     }
+    @Override
+    public String bePlayed() {
+        this.setAmountReproductions(this.getAmountReproductions()+1);
+        return "Reproduciendo... " + this.getName();
+    }
 }

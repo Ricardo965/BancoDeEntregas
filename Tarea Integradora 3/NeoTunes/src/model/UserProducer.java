@@ -41,7 +41,7 @@ public abstract class UserProducer extends User{
     }
     @Override
     public String toString() {
-        return "\nNombre: " + name + "\nnickname: " + this.getNickname() + "\n id: " + this.getId() + "\nFecha de vinculación: " + this.getDate();
+        return "\nNombre: " + name + "\nnickname: " + this.getNickname() + "\nid: " + this.getId() + "\nFecha de vinculación: " + this.getDate();
     }
 
     

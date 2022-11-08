@@ -44,7 +44,7 @@ public class Playlist {
         setCodeMatrix(numericMat);
         String numericId = "";
 
-        if (true) {
+        if (songVerifier() && podcastVerifier()) {
             numericId = codeMatrixR(numericMat);
         } else if (songVerifier()) {
             numericId = codeMatrixN(numericMat);

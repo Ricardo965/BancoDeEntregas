@@ -2,7 +2,7 @@ package model;
 
 import java.util.Date;
 
-public abstract class UserConsumer extends User implements Reproduction{
+public abstract class UserConsumer extends User implements Reproduction {
 
     public UserConsumer(String nickname, String id, Date date) {
         super(nickname, id, date);
@@ -22,5 +22,16 @@ public abstract class UserConsumer extends User implements Reproduction{
 
         return playlists;
     }
+
+    public String showAdquiredAudios() {
+        String adquiredAudios = "";
+
+        return adquiredAudios;
+    }
+    public boolean addAdquiredAudio(AdquiredAudio purchasedAudioToAdd){
+        return false;
+    }
+
+
 
 }

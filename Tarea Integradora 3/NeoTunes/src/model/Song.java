@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Date;
+
 public class Song extends Audio implements Sellable{
     private double price;
     private int numSales;
@@ -36,6 +38,19 @@ public class Song extends Audio implements Sellable{
         this.numSales = 0;
         this.album = album;
         this.genre = genre;
+    }
+    @Override
+
+    public String bePlayed() {
+        this.setAmountReproductions(this.getAmountReproductions()+1);
+        return "Reproduciendo... " + this.getName();
+    }
+
+    @Override
+    public AdquiredAudio beSold(int year, int month, int day, Sellable purchaseAudio) {
+        this.numSales++;
+        AdquiredAudio newAdquiredAudio = new AdquiredAudio(new Date(year, month, day), purchaseAudio);
+        return newAdquiredAudio;
     }
 
     

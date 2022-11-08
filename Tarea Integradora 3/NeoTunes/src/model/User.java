@@ -35,7 +35,7 @@ public abstract class  User {
 
     @Override
     public String toString() {
-        return "\nnickname: " + nickname + "\n id: " + id + "\ndate: " + date;
+        return "\nNickname: " + nickname + "\nid: " + id + "\nFecha: " + date.toString();
     }
     
 

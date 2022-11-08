@@ -42,17 +42,19 @@ public class Controller {
     public String showAudios() {
         String audios = "";
         String type = "";
+        String numSales = "";
         if (!listOfAudios.isEmpty()) {
             for (int i = 0; i < listOfAudios.size(); i++) {
 
 
                 if (listOfAudios.get(i) instanceof Song) {
                     type = "Cancion";
+                    numSales += "\nNumero de ventas: " + String.valueOf(((Song)listOfAudios.get(i)).getNumSales());
                 } else {
                     type = "Podcast";
                 }
                 
-                audios += "\nAudio #" + (i+1) + "\nTipo: "+ type +"\n" + (listOfAudios.get(i)).toString();
+                audios += "\nAudio #" + (i+1) +  numSales + "\nTipo: "+ type +"\n" + (listOfAudios.get(i)).toString();
             }
         }
 
@@ -168,6 +170,14 @@ public class Controller {
         }
     }
 
+    public String showUserAdquiredAudios(int idUser) {
+        if (listOfUsers.get(idUser) instanceof Standard) {
+            return ((Standard) listOfUsers.get(idUser)).showAdquiredAudios();
+        } else {
+            return ((Premium) listOfUsers.get(idUser)).showAdquiredAudios();
+        }
+    }
+
     public String sharePlaylist(int idUser, int idPlaylist) {
         String playlistCode = "";
         if (listOfUsers.get(idUser) instanceof Standard) {
@@ -179,6 +189,38 @@ public class Controller {
             
         }
         return playlistCode;
+           
+    }
+
+    public String reproduceAudio(int idUser, int idPlaylist, int idAudio) {
+        if (listOfUsers.get(idUser) instanceof Standard) {
+            return ((Standard) listOfUsers.get(idUser)).reproduceAudioFromPlaylist(idPlaylist , idAudio);
+        } else {
+            return ((Premium) listOfUsers.get(idUser)).reproduceAudioFromPlaylist(idPlaylist , idAudio);
+        }
+    }
+
+    public String reproduceAudio(int idUser, int idAudio) {
+        if (listOfUsers.get(idUser) instanceof Standard) {
+            return ((Standard) listOfUsers.get(idUser)).reproduceAdquiredAudio(idAudio);
+        } else {
+            return ((Premium) listOfUsers.get(idUser)).reproduceAdquiredAudio(idAudio);
+        }
+    }
+
+    public boolean buyAudio(int idUser, int idAudio, int year, int month, int day){
+        if (listOfAudios.get(idAudio) instanceof Sellable) {
+            if (listOfUsers.get(idUser) instanceof Standard) {
+                ((Standard) listOfUsers.get(idUser)).addAdquiredAudio(((Song)listOfAudios.get(idAudio)).beSold(year, month, day, ((Sellable)listOfAudios.get(idAudio))));
+            } else {
+                ((Premium) listOfUsers.get(idUser)).addAdquiredAudio(((Song)listOfAudios.get(idAudio)).beSold(year, month, day, ((Sellable)listOfAudios.get(idAudio))));
+            }
+            
+            return true;
+
+        } 
+        
+        return false;
     }
 
 }

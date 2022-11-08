@@ -1,9 +1,8 @@
 package ui;
 
+
 import model.Controller;
-import model.Playlist;
-import model.Podcast;
-import model.Song;
+
 
 import java.util.Scanner;
 
@@ -24,14 +23,14 @@ public class Manager {
         while ((exit == false)) {
             System.out.println("Que acción desea realizar?");
             System.out.println("""
-                    1.  = Registrar usuario (Prueba id numerico)
+                    1.  = Registrar usuario
                     2.  = Registrar canción
                     3.  = Registrar podcast
                     4.  = Crear Playlist
                     5.  = Editar Playlist
                     6.  = Compartir una Playlist
-                    7.  = Modificar el puntaje de un jugador
-                    8.  = Mostrar el nivel de un jugador
+                    7.  = Reproducir audio
+                    8.  = Comprar audio
                     9.  = Mostrar la dificultad de un nivel
                     10. = Desplegar menu de informes
                     11. = Seleccionar resolución
@@ -39,34 +38,33 @@ public class Manager {
             int option = Integer.parseInt(sc.nextLine());
             switch (option) {
                 case 1:
-                    Playlist newPLay = new Playlist("Pruebita");
-                    //newPLay.addAudio();
-                    System.out.println(newPLay.printNumericMatrix());
-                    System.out.println(newPLay.getNumericId());
+                    /*Song newSong = new Song(null, null, option, new Artist("Ricardo", "null", null, null, "asd"), option, null, null); 
+                    System.out.println(((Sellable) newSong).beSold(option, option, option, newSong));*/
+                    regUser();
                     break;
                 case 2:
-                    
+                    regSong();
                     break;
                 case 3:
-                
+                    regPodcast();
                     break;
                 case 4:
-            
+                    createPlaylist();
                     break;
                 case 5:
-                  
+                    editPlaylist();
                     break;
                 case 6:
-                    
+                    sharePlaylist();
                     break;
                 case 7:
-                    
+                    reproduceAudio();
                     break;
                 case 8:
-                    
+                    buyAudio();
                     break;
                 case 9:
-                    
+                    System.out.println(controller.showAudios());
                     break;
                 case 10:
                     
@@ -105,25 +103,32 @@ public class Manager {
         String id = sc.nextLine();
         System.out.println("Escribe la fecha de vinculación (YYYY-MM-DD)");
         String date = sc.nextLine();
-        int year = Integer.parseInt(date.split("-")[0]);
-        int month = Integer.parseInt(date.split("-")[1]);
+        int year = (Integer.parseInt(date.split("-")[0]))-1900;
+        int month = (Integer.parseInt(date.split("-")[1]))-1;
         int day = Integer.parseInt(date.split("-")[2]);
         int type;
         switch (userType) {
             case 1:
                 System.out.println("Escribe el tipo de usuario consumidor | 1 = Standard | 2 = Premium |");
                 type = Integer.parseInt(sc.nextLine());
-                controller.regConUser(nickname, id, year, month, day, type);
-
+                if (controller.regConUser(nickname, id, year, month, day, type)) {
+                    System.out.println("Registro exitoso");
+                } else {
+                    System.out.println("Error en el registro");
+                }
                 break;
             case 2:
                 System.out.println("Escribe el tipo de usuario productor | 1 = Artista | 2 = Creador de contenido |");
                 type = Integer.parseInt(sc.nextLine());
+                System.out.println("Digie el URL de la photo");
                 String urlPhoto = sc.nextLine();
+                System.out.println("Digite el nombre del artista");
                 String name = sc.nextLine();
-                controller.regProdUser(nickname, id, year, month, day, urlPhoto, name, type);
-                break;
-            default:
+                if (controller.regProdUser(nickname, id, year, month, day, urlPhoto, name, type)) {
+                    System.out.println("Registro exitoso");
+                } else {
+                    System.out.println("Error en el registro");
+                }
                 break;
         }
     }
@@ -234,6 +239,54 @@ public class Manager {
         System.out.println("Digite el identificador de la playlist");
         int idPlaylist = (Integer.parseInt(sc.nextLine()))-1;
         System.out.println(controller.sharePlaylist(idUser, idPlaylist));
+    }
+
+    public static void reproduceAudio() {
+        System.out.println(controller.showConsumerUsers());
+        System.out.println("Digite el identificador del usuario consumidor que posee el audio a reproducir");
+        int idUser = (Integer.parseInt(sc.nextLine()))-1;
+        System.out.println("Seleccione que el origen del audio a reproducir | 1 = Audio adquirido | 2 = Audio desde playlist |");
+        int originType = Integer.parseInt(sc.nextLine());
+        int idAudio;
+        switch (originType) {
+            case 1:
+                System.out.println(controller.showUserAdquiredAudios(idUser));
+                System.out.println("Digite el identificador del audio a reproducir");
+                idAudio = (Integer.parseInt(sc.nextLine()))-1;
+                System.out.println(controller.reproduceAudio(idUser, idAudio));
+                break;
+            case 2:
+                System.out.println(controller.showConUserPlaylists(idUser));
+                System.out.println("Digite el identificador de la playlist");
+                int idPlaylist = (Integer.parseInt(sc.nextLine()))-1;
+                System.out.println(controller.showPlaylistAudios(idUser, idPlaylist));
+                System.out.println("Digite el identificador del audio a reproducir");
+                idAudio = (Integer.parseInt(sc.nextLine()))-1;
+                System.out.println(controller.reproduceAudio(idUser, idPlaylist, idAudio));
+                break;
+        }
+        
+    }
+
+
+    public static void buyAudio() {
+        int idAudio;
+        System.out.println("Escribe la fecha de comnpra (YYYY-MM-DD)");
+        String date = sc.nextLine();
+        int year = (Integer.parseInt(date.split("-")[0]))-1900;
+        int month = (Integer.parseInt(date.split("-")[1]))-1;
+        int day = Integer.parseInt(date.split("-")[2]);
+        System.out.println(controller.showAudios());
+        System.out.println("Digite el identificador del audio a comprar");
+        idAudio = (Integer.parseInt(sc.nextLine()))-1;
+        System.out.println(controller.showConsumerUsers());
+        System.out.println("Digite el identificador del usuario consumidor que va a comprar el audio");
+        int idUser = (Integer.parseInt(sc.nextLine()))-1;
+        if (controller.buyAudio(idUser, idAudio, year, month, day)) {
+            System.out.println("Audio comprado exitosamente");
+        } else {
+            System.out.println("Error en la compra");
+        }
     }
 
 

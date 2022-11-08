@@ -1,6 +1,6 @@
 package model;
 
-public abstract class Audio {
+public abstract class Audio implements Reproducible{
     private String name;
     private String url;
     private double duration;
@@ -46,7 +46,7 @@ public abstract class Audio {
     }
     @Override
     public String toString() {
-        return "\nNombre: " + name + "\nAutor: " + author.toString();
+        return "\nNombre: " + name + "\nCantidad de reproducciones: " + amountReproductions + "\nAutor: " + author.toString();
     }
 
     
